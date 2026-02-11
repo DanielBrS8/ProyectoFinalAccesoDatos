@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:55432/portscanner
+    username: portscanner
+    password: portscanner
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/portscanner

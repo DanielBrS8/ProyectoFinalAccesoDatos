@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: portscanner-postgres
+    environment:
+      POSTGRES_DB: portscanner_db
+      POSTGRES_USER: portscanner_user
+      POSTGRES_PASSWORD: portscanner_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - portscanner-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portscanner_user -d portscanner_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    image: mongo:7.0
+    container_name: portscanner-mongo
+    environment:
+      MONGO_INITDB_DATABASE: portscanner_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - portscanner-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+  mongo_data:
+    driver: local
+
+networks:
+  portscanner-network:
+    driver: bridge

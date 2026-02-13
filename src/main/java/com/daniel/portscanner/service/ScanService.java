@@ -20,6 +20,7 @@ public class ScanService {
 
     private final NmapService nmapService;
 
+    //spring crea el NmapService
     public ScanService(NmapService nmapService) {
         this.nmapService = nmapService;
     }
@@ -37,6 +38,7 @@ public class ScanService {
         return scan;
     }
 
+    //utilizamos DOM parser
     private List<PortInfo> parsePortsFromNmapXml(String xml) {
         try {
             Document doc = DocumentBuilderFactory.newInstance()

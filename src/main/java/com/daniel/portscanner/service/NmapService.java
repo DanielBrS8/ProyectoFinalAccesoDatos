@@ -11,14 +11,14 @@ public class NmapService {
 
     public String scanXml(String target) {
         try {
-            // Ejecutamos nmap en WSL y pedimos salida XML por stdout (-oX -)
+            // Ejecutamos nmap en WSL mediante ProcessBuilder
             List<String> cmd = List.of(
-                    "wsl", "nmap",
+                    "wsl", "sudo", "nmap",
                     "-sV",
                     "--top-ports", "100",
                     "-oX", "-",
                     target);
-
+                
             ProcessBuilder pb = new ProcessBuilder(cmd);
             pb.redirectErrorStream(true); // mezcla stdout+stderr para ver errores juntos
 
